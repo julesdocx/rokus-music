@@ -291,8 +291,18 @@ body {
 }
 
 .info {
+    /* background-color: red; */
+    padding: 12px;
+    border-radius: 10px;
+    /* filter: blur(3px); */
+    backdrop-filter: blur(5px);    
     position: absolute;
+    color: rgb(0, 0, 0);
     top: 65%;
+    /* font-size: 2em; */
+    /* -webkit-text-stroke: 0.5px black;  */
+    box-shadow: inset;
+    line-height: 10px;
 }
 
 .info-text {
@@ -325,13 +335,14 @@ overflow-x: hidden;
 </style>
 </head>
 <body>
+    <canvas id="c" style="position:absolute;width:100%;height:100%;"></canvas>
+    <!-- <div style="position:absolute;height: 100vw; width: 100vw;backdrop-filter: blur(2px);"></div> -->
+    <div class="scene-clip">
+        <div class="scene">
+            <div class="carousel" id="carousel-container"></div>
+        </div>
+    </div>
 
-
-<div class="scene-clip">
-  <div class="scene">
-    <div class="carousel" id="carousel-container"></div>
-  </div>
-</div>
 
 <div class="info">
         <div>
@@ -417,13 +428,13 @@ class Carousel3D{
         this.cells          = Array.from(document.querySelectorAll('.carousel__cell'))
                                    .filter(el=>!el.classList.contains('reflect'));
 
-        this.reflections = this.cells.map(cell=>{
-            const clone = cell.cloneNode(true);
-            clone.classList.add('reflect');
-            clone.setAttribute('aria-hidden','true');
-            this.carousel.appendChild(clone);
-            return clone;
-        });
+        // this.reflections = this.cells.map(cell=>{
+        //     const clone = cell.cloneNode(true);
+        //     clone.classList.add('reflect');
+        //     clone.setAttribute('aria-hidden','true');
+        //     this.carousel.appendChild(clone);
+        //     return clone;
+        // });
 
         this.cellCount     = 9; // Fixed at 16
         this.selectedIndex = 0;
@@ -537,24 +548,24 @@ class Carousel3D{
             }
         });
 
-        this.reflections.forEach((clone,i)=>{
-            let distance = i - Math.round(this.selectedIndex);
-            if(distance > this.cells.length / 2) distance -= this.cells.length;
-            if(distance < -this.cells.length / 2) distance += this.cells.length;
+        // this.reflections.forEach((clone,i)=>{
+        //     let distance = i - Math.round(this.selectedIndex);
+        //     if(distance > this.cells.length / 2) distance -= this.cells.length;
+        //     if(distance < -this.cells.length / 2) distance += this.cells.length;
             
-            const absDistance = Math.abs(distance);
+        //     const absDistance = Math.abs(distance);
             
-            if(absDistance <= 4){
-                const tplIndex = distance + center;
-                const p=templates[tplIndex],drop=this.CELL_SIZE;
-                clone.style.display='block';
-                clone.style.transform=`translate(-50%,-10%)
-                                        translateX(${p.x}px) translateZ(${p.z}px) rotateY(${p.rotY}deg)
-                                        translateY(${drop}px) scaleY(-1)`;
-            }else{
-                clone.style.display='none';
-            }
-        });
+        //     if(absDistance <= 4){
+        //         const tplIndex = distance + center;
+        //         const p=templates[tplIndex],drop=this.CELL_SIZE;
+        //         clone.style.display='block';
+        //         clone.style.transform=`translate(-50%,-10%)
+        //                                 translateX(${p.x}px) translateZ(${p.z}px) rotateY(${p.rotY}deg)
+        //                                 translateY(${drop}px) scaleY(-1)`;
+        //     }else{
+        //         clone.style.display='none';
+        //     }
+        // });
     }
 }
 
@@ -620,5 +631,7 @@ window.addEventListener('DOMContentLoaded', () => {
 }); 
 
 </script>
+<script src="canvas.js"></script>
+
 </body>
 </html>
